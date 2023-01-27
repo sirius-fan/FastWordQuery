@@ -54,7 +54,7 @@ class FoldersManageDialog(Dialog):
         chk_layout = QHBoxLayout()
         chk_layout.addWidget(self.chk_use_filename)
         chk_layout.addWidget(self.chk_export_media)
-        btnbox = QDialogButtonBox(QDialogButtonBox.Ok, Qt.Horizontal, self)
+        btnbox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok, Qt.Orientation.Horizontal, self)
         btnbox.accepted.connect(self.accept)
         layout.addLayout(btn_layout)
         layout.addWidget(self.folders_lst)
@@ -67,7 +67,7 @@ class FoldersManageDialog(Dialog):
             self,
             caption=u"Select Folder",
             directory=config.last_folder,
-            options=QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
+            options=QFileDialog.Option.ShowDirsOnly | QFileDialog.Option.DontResolveSymlinks)
         if dir_:
             self.folders_lst.addItem(dir_)
             config.update({'last_folder': dir_})

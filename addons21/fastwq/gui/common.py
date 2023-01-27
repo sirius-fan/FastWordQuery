@@ -39,7 +39,7 @@ def show_fm_dialog(browser=None):
     fm_dialog = FoldersManageDialog(parent, u'Dictionary Folder Manager')
     fm_dialog.activateWindow()
     fm_dialog.raise_()
-    if fm_dialog.exec_() == QDialog.Accepted:
+    if fm_dialog.exec() == QDialog.DialogCode.Accepted:
         # update local services
         service_pool.clean()
         service_manager.update_services()
@@ -53,7 +53,7 @@ def show_dm_dialog(browser=None):
     dm_dialog = DictManageDialog(parent, u'Dictionary Manager')
     dm_dialog.activateWindow()
     dm_dialog.raise_()
-    if dm_dialog.exec_() == QDialog.Accepted:
+    if dm_dialog.exec() == QDialog.DialogCode.Accepted:
         # update local services
         service_pool.clean()
         service_manager.update_services()
@@ -69,9 +69,9 @@ def show_options(browser=None, model_id=-1, callback=None, *args, **kwargs):
     opt_dialog = OptionsDialog(parent, u'Options', model_id)
     opt_dialog.activateWindow()
     opt_dialog.raise_()
-    result = opt_dialog.exec_()
+    result = opt_dialog.exec()
     opt_dialog.destroy()
-    if result == QDialog.Accepted:
+    if result == QDialog.DialogCode.Accepted:
         if isinstance(callback, types.FunctionType):
             callback(*args, **kwargs)
     elif result == 1001:

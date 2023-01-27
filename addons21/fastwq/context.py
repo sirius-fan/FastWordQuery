@@ -153,4 +153,9 @@ class Config(object):
         return tmpstr
 
 
+# config = Config(mw)
+# https://github.com/sth2018/FastWordQuery/issues/258
+wp = mw.pm.profileFolder()
+mediaPath = os.path.join(wp, "collection.media")
+os.chdir(mediaPath)
 config = Config(mw)

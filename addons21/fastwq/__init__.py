@@ -21,14 +21,14 @@ import ssl
 import sys
 
 from anki.hooks import addHook
-from anki.utils import isMac
+from anki.utils import is_mac
 
 sys.dont_write_bytecode = True
-if isMac:
+if is_mac:
     ssl._create_default_https_context = ssl._create_unverified_context
 
 ############## other config here ##################
-shortcut = ('Ctrl+Alt' if isMac else 'Ctrl') + '+Q'
+shortcut = ('Ctrl+Alt' if is_mac else 'Ctrl') + '+Q'
 
 ###################################################
 

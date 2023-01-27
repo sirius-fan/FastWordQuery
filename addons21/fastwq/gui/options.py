@@ -23,7 +23,7 @@ import anki
 import aqt
 import aqt.models
 import sip
-from anki.utils import isMac
+from anki.utils import is_mac
 from aqt import mw
 from aqt.qt import *
 from aqt.studydeck import StudyDeck
@@ -58,7 +58,7 @@ class OptionsDialog(Dialog):
         # initlizing info
         self.main_layout = QVBoxLayout()
         self.loading_label = QLabel(_('INITLIZING_DICT'))
-        self.main_layout.addWidget(self.loading_label, 0, Qt.AlignCenter)
+        self.main_layout.addWidget(self.loading_label, 0, Qt.AlignmentFlag.AlignCenter)
         # self.loading_layout.addLayout(models_layout)
         self.setLayout(self.main_layout)
         # initlize properties
@@ -129,13 +129,13 @@ class OptionsDialog(Dialog):
         tab_corner = QWidget()
         tab_corner_layout = QHBoxLayout()
         tab_corner_layout.setSpacing(1)
-        tab_corner_layout.setSizeConstraint(QLayout.SetMinAndMaxSize)
+        tab_corner_layout.setSizeConstraint(QLayout.SizeConstraint.SetMinAndMaxSize)
         tab_corner_layout.setContentsMargins(0, 0, 0, 0)
         tab_corner.setLayout(tab_corner_layout)
         tab_add_button = QToolButton(self)
         tab_add_button.setIcon(get_icon('add.png'))
         tab_set_button = QToolButton(self)
-        if isMac and sys.hexversion < 0x03000000:
+        if is_mac and sys.hexversion < 0x03000000:
             tab_set_button.setMaximumSize(20, 20)
             tab_add_button.setMaximumSize(20, 20)
         tab_set_button.setIcon(get_icon('setting.png'))
@@ -161,7 +161,7 @@ class OptionsDialog(Dialog):
             '<a href="{url}">User Guide</a>'.format(url=Endpoint.user_guide))
         home_label.setOpenExternalLinks(True)
         # buttons
-        btnbox = QDialogButtonBox(QDialogButtonBox.Ok, Qt.Horizontal, self)
+        btnbox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok, Qt.Orientation.Horizontal, self)
         btnbox.accepted.connect(self.accept)
         bottom_layout.addWidget(paras_btn)
         # bottom_layout.addWidget(chk_update_btn)
@@ -182,9 +182,9 @@ class OptionsDialog(Dialog):
             self.build_tabs_layout()
 
     def show_paras(self):
-        '''open setting dialog'''
+        """open setting dialog"""
         dialog = SettingDialog(self, u'Setting')
-        dialog.exec_()
+        dialog.exec()
         dialog.destroy()
 
     # def check_updates(self):
@@ -193,36 +193,36 @@ class OptionsDialog(Dialog):
     #     check_updates(parent=self)
 
     def show_fm_dialog(self):
-        '''open folder manager dialog'''
+        """open folder manager dialog"""
         self.accept()
         self.setResult(1001)
 
     def show_dm_dialog(self):
-        '''open dictionary manager dialog'''
+        """open dictionary manager dialog"""
         self.accept()
         self.setResult(1002)
 
     def show_about(self):
-        '''open about dialog'''
+        """open about dialog"""
         from .common import show_about_dialog
         show_about_dialog(self)
 
     def accept(self):
-        '''on button was clicked'''
+        """on button was clicked"""
         self.save()
         super(OptionsDialog, self).accept()
 
     def btn_models_pressed(self):
-        '''on choose model button was clicker'''
+        """on choose model button was clicker"""
         self.save()
         self.current_model = self.show_models()
         if self.current_model:
             self.build_tabs_layout()
 
     def build_tabs_layout(self):
-        '''
+        """
         build dictionary、fields etc
-        '''
+        """
         try:
             self.tab_widget.currentChanged.disconnect()
         except Exception:
@@ -273,7 +273,7 @@ class OptionsDialog(Dialog):
         #    self.tab_widget.setTabText(k, _('CONFIG_INDEX') % (k+1))
 
     def changedTab(self, i):
-        if not isMac or sys.hexversion >= 0x03000000:
+        if not is_mac or sys.hexversion >= 0x03000000:
             # restore
             for k in range(0, len(self.tabs)):
                 self.tab_widget.setTabIcon(k, self._NULL_ICON)
@@ -282,14 +282,14 @@ class OptionsDialog(Dialog):
         self.tabs[i].build_layout()
 
     def show_models(self):
-        '''
+        """
         show choose note type window
-        '''
+        """
         edit = QPushButton(
             anki.lang._("Manage"), clicked=lambda: aqt.models.Models(mw, self))
         ret = StudyDeck(
             mw,
-            names=lambda: sorted(mw.col.models.allNames()),
+            names=lambda: sorted(mw.col.models.all_names()),
             accept=anki.lang._("Choose"),
             title=anki.lang._("Choose Note Type"),
             help="_notes",
@@ -304,7 +304,7 @@ class OptionsDialog(Dialog):
             return model
 
     def save(self):
-        '''save config to file'''
+        """save config to file"""
         if not self.current_model:
             return
         data = dict()
@@ -323,7 +323,7 @@ class OptionsDialog(Dialog):
 
 
 class TabContent(QScrollArea):
-    '''Options tab content'''
+    """Options tab content"""
 
     def __init__(self, model, conf, services):
         super(TabContent, self).__init__()
@@ -336,16 +336,16 @@ class TabContent(QScrollArea):
         # dicts mapping
         dicts = QWidget(self)
         dicts.setLayout(QGridLayout())
-        self.setFrameShape(QFrame.NoFrame)
+        self.setFrameShape(QFrame.Shape.NoFrame)
         self.setWidgetResizable(True)
         self.setWidget(dicts)
         self.dicts_layout = dicts.layout()
         # self.dicts_layout.setSizeConstraint(QLayout.SetFixedSize)
 
     def build_layout(self):
-        '''
+        """
         build dictionary、fields etc
-        '''
+        """
         if self._was_built:
             return
 
@@ -364,7 +364,7 @@ class TabContent(QScrollArea):
             if s:
                 label = QLabel(_(s))
                 label.setFont(f)
-                label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+                label.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
                 self.dicts_layout.addWidget(label, 0, i)
 
         # ignore all
@@ -434,7 +434,7 @@ class TabContent(QScrollArea):
 
         # check
         word_check_btn = QRadioButton(fld_name)
-        word_check_btn.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        word_check_btn.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         word_check_btn.setCheckable(True)
         word_check_btn.setChecked(word_checked)
         self.radio_group.addButton(word_check_btn)
@@ -443,8 +443,10 @@ class TabContent(QScrollArea):
         dict_combo.setMinimumSize(WIDGET_SIZE.map_dict_width, 0)
         dict_combo.setMaximumSize(WIDGET_SIZE.map_dict_width,
                                   WIDGET_SIZE.map_max_height)
-        dict_combo.setFocusPolicy(Qt.TabFocus | Qt.ClickFocus | Qt.StrongFocus
-                                  | Qt.WheelFocus)
+        dict_combo.setFocusPolicy(Qt.FocusPolicy.TabFocus
+                                  | Qt.FocusPolicy.ClickFocus
+                                  | Qt.FocusPolicy.StrongFocus
+                                  | Qt.FocusPolicy.WheelFocus)
         ignore = not self.fill_dict_combo_options(dict_combo, dict_unique,
                                                   self._services) or ignore
         dict_unique = dict_combo.itemData(dict_combo.currentIndex())
@@ -515,7 +517,7 @@ class TabContent(QScrollArea):
 
         # dict
         def dict_combo_changed(index):
-            '''dict combo box index changed'''
+            """dict combo box index changed"""
             self.fill_field_combo_options(
                 field_combo, dict_combo.currentText(),
                 dict_combo.itemData(index), field_combo.currentText(),
@@ -544,7 +546,7 @@ class TabContent(QScrollArea):
         })
 
     def fill_dict_combo_options(self, dict_combo, current_unique, services):
-        '''setup dict combo box'''
+        """setup dict combo box"""
         dict_combo.clear()
 
         # local dict service
@@ -573,7 +575,7 @@ class TabContent(QScrollArea):
     def fill_field_combo_options(self, field_combo, dict_combo_text,
                                  dict_combo_itemdata, dict_fld_name,
                                  dict_fld_ord):
-        '''setup field combobox'''
+        """setup field combobox"""
         field_combo.clear()
         field_combo.setEditable(False)
         # if dict_combo_text in _sl('NOT_DICT_FIELD'):
@@ -663,18 +665,18 @@ class CTabBar(QTabBar):
         self.setDrawBase(False)
         # edit
         self._editor = QLineEdit(self)
-        self._editor.setWindowFlags(Qt.Popup)
+        self._editor.setWindowFlags(Qt.WindowType.Popup)
         self._editor.setMaxLength(20)
         self._editor.editingFinished.connect(self.handleEditingFinished)
         self._editor.installEventFilter(self)
 
     def eventFilter(self, widget, event):
         bhide = False
-        if event.type() == QEvent.MouseButtonPress:
+        if event.type() == QEvent.Type.MouseButtonPress:
             if not self._editor.geometry().contains(event.globalPos()):
                 bhide = True
         if not bhide:
-            if event.type() == QEvent.KeyPress:
+            if event.type() == QEvent.Type.KeyPress:
                 if event.key() == Qt.Key_Escape:
                     bhide = True
         if bhide:

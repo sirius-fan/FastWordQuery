@@ -1,3 +1,7 @@
+# [Qt6-dev] FastWordQuery_
+fork FastWordQuery for fix some qt6 and new anki's api.
+
+
 # FastWordQuery Addon For Anki
 
   [Supported Dictionaries](docs/services.md)

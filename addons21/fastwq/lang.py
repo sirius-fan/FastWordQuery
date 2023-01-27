@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from anki.lang import currentLang
+from anki.lang import current_lang
 
 try:
     basestring
@@ -110,8 +110,8 @@ _arr = [
 _trans = {item[0]: {'zh_CN': item[1], 'en': item[2]} for item in _arr}
 
 
-def _(key, lang=currentLang):
-    '''get local language string'''
+def _(key, lang=current_lang):
+    """get local language string"""
     if lang != 'zh_CN' and lang != 'en':
         lang = 'en'
 
@@ -123,8 +123,8 @@ def _(key, lang=currentLang):
     return _trans[key][lang]
 
 
-def _cl(labels, lang=currentLang):
-    '''get local language string from labels'''
+def _cl(labels, lang=current_lang):
+    """get local language string from labels"""
     if isinstance(labels, basestring):
         return _(labels)
     if lang != 'zh_CN' and lang != 'en':

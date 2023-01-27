@@ -86,8 +86,8 @@ def browser_menu():
             def _show_options():
                 model_id = -1
                 for note_id in browser.selectedNotes():
-                    note = browser.mw.col.getNote(note_id)
-                    model_id = note.model()['id']
+                    note = browser.mw.col.get_note(note_id)
+                    model_id = note.note_type()['id']
                     break
                 show_options(browser, model_id)
 
@@ -154,7 +154,7 @@ def customize_addcards():
         # signal
         def onQuery(e):
             if isinstance(e, QMouseEvent):
-                if e.buttons() & Qt.LeftButton:
+                if e.buttons() & Qt.MouseButton.LeftButton:
                     menu = QMenu(self)
                     menu.addAction(
                         _("ALL_FIELDS"),

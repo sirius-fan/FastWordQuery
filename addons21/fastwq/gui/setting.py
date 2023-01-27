@@ -90,12 +90,12 @@ class SettingDialog(Dialog):
 
         hbox = QHBoxLayout()
         okbtn = QDialogButtonBox(parent=self)
-        okbtn.setStandardButtons(QDialogButtonBox.Ok)
+        okbtn.setStandardButtons(QDialogButtonBox.StandardButton.Ok)
         okbtn.clicked.connect(self.accept)
         resetbtn = QDialogButtonBox(parent=self)
-        resetbtn.setStandardButtons(QDialogButtonBox.Reset)
+        resetbtn.setStandardButtons(QDialogButtonBox.StandardButton.Reset)
         resetbtn.clicked.connect(self.reset)
-        hbox.setAlignment(Qt.AlignRight)
+        hbox.setAlignment(Qt.AlignmentFlag.AlignRight)
         hbox.addSpacing(300)
         hbox.addWidget(resetbtn)
         hbox.addWidget(okbtn)
@@ -110,7 +110,7 @@ class SettingDialog(Dialog):
         self.input_cloze_str = input_cloze_str
         self.input_sound_str = input_sound_str
 
-        layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
         self.setLayout(layout)
 
     def accept(self):

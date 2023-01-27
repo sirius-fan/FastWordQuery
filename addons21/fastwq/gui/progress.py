@@ -84,13 +84,13 @@ class ProgressWindow(object):
         label = label or _("Processing...")
         parent = parent or self.app.activeWindow() or self.mw
         self._win = QProgressDialog(label, '', min, max, parent)
-        self._win.setWindowModality(Qt.ApplicationModal)
+        self._win.setWindowModality(Qt.WindowModality.ApplicationModal)
         self._win.setCancelButton(None)
         self._win.canceled.connect(self.finish)
         self._win.setWindowTitle("FastWQ - Querying...")
         self._win.setModal(True)
         self._win.setWindowFlags(
-            self._win.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+            self._win.windowFlags() & ~Qt.WindowType.WindowContextHelpButtonHint)
         self._win.setWindowIcon(APP_ICON)
         self._win.setAutoReset(True)
         self._win.setAutoClose(True)
@@ -122,7 +122,7 @@ class ProgressWindow(object):
         if value:
             self._win.setValue(value)
         if process and elapsed >= 0.2:
-            self.app.processEvents(QEventLoop.ExcludeUserInputEvents)
+            self.app.processEvents(QEventLoop.ProcessEventsFlag.ExcludeUserInputEvents)
             self._last_update = time.time()
 
     def _set_busy(self):

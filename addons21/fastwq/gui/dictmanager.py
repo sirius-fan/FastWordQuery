@@ -46,7 +46,7 @@ class DictManageDialog(Dialog):
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
         self._options = list()
-        btnbox = QDialogButtonBox(QDialogButtonBox.Ok, Qt.Horizontal, self)
+        btnbox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok, Qt.Orientation.Horizontal, self)
         btnbox.accepted.connect(self.accept)
         self.scroll = QWidget()
         self.scroll.setMinimumSize(250, 1100)
@@ -69,7 +69,7 @@ class DictManageDialog(Dialog):
             if s:
                 label = QLabel(_(s))
                 label.setFont(f)
-                label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+                label.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
                 self.dicts_layout.addWidget(label, 0, i)
         # enabled all
         self.enabled_all_check_btn = QCheckBox(_('DICTS_NAME'))
@@ -112,7 +112,7 @@ class DictManageDialog(Dialog):
         )
         # button
         check_btn = QCheckBox(title)
-        check_btn.setMinimumSize(WIDGET_SIZE.map_dict_width * 1.5, 0)
+        check_btn.setMinimumSize(WIDGET_SIZE.map_dict_width * 2, 0)
         check_btn.setEnabled(True)
         check_btn.setChecked(enabled)
         edit_btn = QToolButton(self)
