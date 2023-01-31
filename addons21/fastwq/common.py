@@ -158,8 +158,8 @@ def customize_addcards():
                     menu = QMenu(self)
                     menu.addAction(
                         _("ALL_FIELDS"),
-                        lambda: query_from_editor_fields(self.editor),
-                        QKeySequence(my_shortcut))
+                        lambda: query_from_editor_fields(self.editor))
+                        # ,QKeySequence(my_shortcut))
                     # default options
                     mid = self.editor.note.model()['id']
                     conf = config.get_maps(mid)
@@ -238,8 +238,8 @@ def context_menu():
 
         submenu = menu.addMenu(_('QUERY'))
         submenu.addAction(
-            _('ALL_FIELDS'), lambda: query_from_editor_fields(web_view.editor),
-            QKeySequence(my_shortcut))
+            _('ALL_FIELDS'), lambda: query_from_editor_fields(web_view.editor))
+            # ,QKeySequence(my_shortcut))
         if len(curr_flds) > 0:
             # quer hook method
             def query_from_editor_hook(i):

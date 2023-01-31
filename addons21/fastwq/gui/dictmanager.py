@@ -37,9 +37,9 @@ __all__ = ['DictManageDialog']
 
 
 class DictManageDialog(Dialog):
-    '''
+    """
     Dictionary manager window. enabled or disabled dictionary, and setting params of dictionary.
-    '''
+    """
 
     def __init__(self, parent, title=u'Dictionary Manager'):
         super(DictManageDialog, self).__init__(parent, title)
@@ -60,7 +60,7 @@ class DictManageDialog(Dialog):
         self.build()
 
     def build(self):
-        ''' '''
+        """ """
         # labels
         f = QFont()
         f.setBold(True)
@@ -143,7 +143,7 @@ class DictManageDialog(Dialog):
             row['check_btn'].setChecked(b)
 
     def on_edit(self, path):
-        '''edit dictionary file'''
+        """edit dictionary file"""
         d = QDialog(self)
         frm = Ui_Dialog()
         frm.setupUi(d)
@@ -154,10 +154,10 @@ class DictManageDialog(Dialog):
         else:
             frm.text.setPlainText(unicode(open(path).read(), "utf8"))
         d.accepted.connect(lambda: self.on_accept_edit(path, frm))
-        d.exec_()
+        d.exec()
 
     def on_accept_edit(self, path, frm):
-        '''save dictionary file'''
+        """save dictionary file"""
         # 2x3 compatible
         if sys.hexversion >= 0x03000000:
             open(path, "w", encoding='utf-8').write(frm.text.toPlainText())
@@ -165,12 +165,12 @@ class DictManageDialog(Dialog):
             open(path, "w").write(frm.text.toPlainText().encode("utf8"))
 
     def accept(self):
-        '''ok button clicked'''
+        """ok button clicked"""
         self.save()
         super(DictManageDialog, self).accept()
 
     def save(self):
-        '''save config to file'''
+        """save config to file"""
         data = dict()
         dicts = {}
         for row in self._options:
