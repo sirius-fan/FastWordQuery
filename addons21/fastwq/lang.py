@@ -26,7 +26,7 @@ except NameError:
 
 __all__ = ['_', '_cl', '_sl']
 
-# Language Define, [Key, zh_CN, en]
+# Language Define, [Key, zh-CN, en]
 _arr = [
     ['CHECK_FILENAME_LABEL', u'使用文件名作为标签', u'Use the Filename as Label'],
     ['EXPORT_MEDIA', u'导出媒体文件', u'Export Media Files'],
@@ -107,12 +107,12 @@ _arr = [
     ['IMAGE', u'图片', u'Images'],
 ]
 
-_trans = {item[0]: {'zh_CN': item[1], 'en': item[2]} for item in _arr}
+_trans = {item[0]: {'zh-CN': item[1], 'en': item[2]} for item in _arr}
 
 
 def _(key, lang=current_lang):
     """get local language string"""
-    if lang != 'zh_CN' and lang != 'en':
+    if lang != 'zh-CN' and lang != 'en':
         lang = 'en'
 
     def disp(s):
@@ -127,9 +127,9 @@ def _cl(labels, lang=current_lang):
     """get local language string from labels"""
     if isinstance(labels, basestring):
         return _(labels)
-    if lang != 'zh_CN' and lang != 'en':
+    if lang != 'zh-CN' and lang != 'en':
         lang = 'en'
-    return labels[0] if lang == 'zh_CN' else labels[1]
+    return labels[0] if lang == 'zh-CN' else labels[1]
 
 
 def _sl(key):
