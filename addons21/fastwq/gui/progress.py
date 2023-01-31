@@ -88,6 +88,7 @@ class ProgressWindow(object):
         self._win.setCancelButton(None)
         self._win.canceled.connect(self.finish)
         self._win.setWindowTitle("FastWQ - Querying...")
+        # TODO
         self._win.setModal(True)
         self._win.setWindowFlags(
             self._win.windowFlags() & ~Qt.WindowType.WindowContextHelpButtonHint)

@@ -666,10 +666,22 @@ class MdxService(LocalService):
         msrc = re.findall(r'<img.*?src="([\w\./]\S+?)".*?>', html)
         media_files_set.update(set(msrc))
         msound = re.findall(r'href="sound:(.*?\.(?:mp3|wav))"', html)
+        # TODO
+        """
+        for import css
+        https://forums.ankiweb.net/t/how-to-add-external-css-in-a-field/17838/9
+        <link rel="stylesheet" href="v.css" type="text/css">
+        <style>@import url(style.css);</style>
+        <style>@import "style.css";</style>
+        """
+        css_list = ["@import url(_{});".format(i) for i in mcss]
+        css_style = "\n".join(css_list)
+        css_style = "<style> {} </style>".format(css_style)
         if config.export_media:
             media_files_set.update(set(msound))
         for each in media_files_set:
             html = html.replace(each, u'_' + each.split('/')[-1])
+        html = css_style + html
         # find sounds
         p = re.compile(
             r'<a[^>]+?href=\"sound:_(.*?\.(?:mp3|wav))\"[^>]*?>(.*?)</a>')
