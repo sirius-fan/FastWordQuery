@@ -1,5 +1,15 @@
-# [Qt6-dev] FastWordQuery_
-fork FastWordQuery for fix some qt6 and new anki's api.
+# [dev] FastWordQuery_
+**没改完，慢慢来**
+
+适配pyqt6
+
+适配anki新api
+
+修改失效词典
+
+## 使用
+
+复制addons21里的fastwq文件夹到插件文件夹即可
 
 
 # FastWordQuery Addon For Anki
