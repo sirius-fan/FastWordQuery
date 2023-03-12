@@ -14,7 +14,8 @@ MAPPINGS = [
     ['us', [re.compile(VOICE_PATTERN % r'us')]]
 ]
 LANG_TO_REGEXPS = {lang: regexps for lang, regexps in MAPPINGS}
-DICT_PATH = u"/Users/brian/Documents/牛津高阶英汉双解词典第9例句发音版_V1.0.3c/牛津高阶英汉双解词典(第9版)_V1.0.3c.mdx" # u'E:\\BaiduYunDownload\\mdx\\L6mp3.mdx'
+# DICT_PATH = u"/Users/brian/Documents/牛津高阶英汉双解词典第9例句发音版_V1.0.3c/牛津高阶英汉双解词典(第9版)_V1.0.3c.mdx" # u'E:\\BaiduYunDownload\\mdx\\L6mp3.mdx'
+DICT_PATH = u""
 
 
 @register([u'本地词典-牛津高阶9例句发音', u'牛津高阶9例句发音'])

@@ -14,7 +14,7 @@ MAPPINGS = [
     ['us', [re.compile(VOICE_PATTERN % r'ameProns')]]
 ]
 LANG_TO_REGEXPS = {lang: regexps for lang, regexps in MAPPINGS}
-DICT_PATH = u'/Users/brian/Documents/LDOCE5++ V 2-15/LDOCE5++ V 2-15.mdx' # u'E:\\BaiduYunDownload\\mdx\\L6mp3.mdx'
+DICT_PATH = u'' # u'E:\\BaiduYunDownload\\mdx\\L6mp3.mdx'
 
 
 @register([u'本地词典-LDOCE5++', u'MDX-LDOCE5++'])

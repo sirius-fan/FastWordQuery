@@ -4,7 +4,7 @@ import re
 import random
 from ..base import *
 
-DICT_PATH = u"/Users/brian/Documents/mdx/lgmcw_Sound++/SoundMobile.mdx" # u'E:\\BaiduYunDownload\\mdx\\L6mp3.mdx'
+DICT_PATH = "" #u"/Users/brian/Documents/mdx/lgmcw_Sound++/SoundMobile.mdx"
 
 
 @register([u'本地词典-lgmcw_Sound++', u'lgmcw_Sound++'])

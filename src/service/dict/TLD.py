@@ -4,7 +4,7 @@ import re
 import random
 from ..base import *
 
-DICT_PATH = u"/Users/brian/Documents/mdx/The Little Dict/TLD.mdx" # u'E:\\BaiduYunDownload\\mdx\\L6mp3.mdx'
+DICT_PATH = "" #u"/Users/brian/Documents/mdx/The Little Dict/TLD.mdx" # u'E:\\BaiduYunDownload\\mdx\\L6mp3.mdx'
 
 
 @register([u'本地词典-The Little Dict', u'The Little Dict'])
