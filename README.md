@@ -7,6 +7,7 @@ If you're a language learner or just someone who loves reading, FastWordQuery ca
 Changes of this fork:
 1. Added support to Anki 2.1
 2. added https://www.dizionario-italiano.it/ dictionary service
+3. Improve the LDOCE6 service
 
 # FastWordQuery Addon For Anki
 
