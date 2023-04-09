@@ -1,25 +1,18 @@
-# [dev] FastWordQuery_
-**没改完，慢慢来**
-
-适配pyqt6
-
-适配anki新api
-
-修改失效词典
-
-修复css文件不能载入的问题（暂时有效）（  [问题来源](https://github.com/ankitects/anki/blob/main/ts/editor/plain-text-input/remove-prohibited.ts#L14) & [解释](https://forums.ankiweb.net/t/how-to-add-external-css-in-a-field/17838/9) ）
-## 使用
-
-复制addons21里的fastwq文件夹到插件文件夹即可
-
+# FastWordQuery
+FastWordQuery is a powerful Anki addon that allows you to quickly look up definitions, pronunciations, examples, etc of words without
+leaving the app. Unfortunately, the original FastWordQuery is no longer maintained, which means that it may not work as expected with newer
+versions of Anki. 
+To address this issue, @sirius-fan has ported the original version of FastWordQuery to Anki 2.1 and this fork is based on his one.
+If you're a language learner or just someone who loves reading, FastWordQuery can save you a lot of time and effort by providing instant access to word definitions and  etc within Anki. Give it a try and let me know how it works for you!
+Changes of this fork:
+1. Added support to Anki 2.1
+2. added https://www.dizionario-italiano.it/ dictionary service
 
 # FastWordQuery Addon For Anki
 
   [Supported Dictionaries](docs/services.md)
 
-  [为单词添加真人发音（朗文mdx词典）](docs/get_mdx_ldoce6_sounds.md)
-
-
+  [Add human pronunciation to words](docs/get_mdx_ldoce6_sounds.md)
 
 ## Features
 
@@ -35,7 +28,7 @@ It forks from [WordQuery](https://github.com/finalion/WordQuery), added **multi-
 
    1. Place addons or addons21 folder of this repository to anki addon folder.  
     **OR**
-   2. Use the installation code: **1807206748**
+   2. Use the installation code: **This fork doesnt have any**
 
 
 ## Setting
