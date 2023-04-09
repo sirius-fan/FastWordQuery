@@ -12,7 +12,7 @@ MAPPINGS = [
     ['us', [re.compile(VOICE_PATTERN % r'b'), re.compile(VOICE_PATTERN_WQ % (r'amevoice', r'amevoice'))]]
 ]
 LANG_TO_REGEXPS = {lang: regexps for lang, regexps in MAPPINGS}
-DICT_PATH = u'' # u'E:\\BaiduYunDownload\\mdx\\L6mp3.mdx'
+DICT_PATH = u'PUT THE MDX ADDRESS HERE' # u'E:\\BaiduYunDownload\\mdx\\L6mp3.mdx'
 
 
 @register([u'本地词典-LDOCE6', u'MDX-LDOCE6'])
@@ -35,14 +35,21 @@ class Ldoce6(MdxService):
     @property
     def title(self):
         return getattr(self, '__register_label__', self.unique)
-
+    
+    
     @export('PHON')
     def fld_phonetic(self):
         html = self.get_html()
-        m = re.search(r'<span class="pron">(.*?)</span>', html)
-        if m:
-            return m.groups()[0]
-        return ''
+        m_first_part = re.search(r'<span class="pron">(.*?)</span>', html)
+        m_second_part = re.search(r'<span class="amevarpron">.*?</span>(.*?)</span>', html)
+        result = ''
+        if m_first_part:
+            result = result + m_first_part.groups()[0]
+        if m_second_part:
+           result = result + ' $ ' + m_second_part.groups()[0]
+        if result:
+           result = '/' + result + '/'
+        return result
 
     def _fld_voice(self, html, voice):
         """获取发音字段"""
