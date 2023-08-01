@@ -22,7 +22,10 @@ import sys
 import anki
 import aqt
 import aqt.models
-import sip
+try:
+    import sip
+except ModuleNotFoundError as e:
+    from PyQt6 import sip
 from anki.utils import is_mac
 from aqt import mw
 from aqt.qt import *
