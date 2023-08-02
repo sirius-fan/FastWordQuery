@@ -13,6 +13,25 @@
 复制src文件夹到插件文件夹即可，也可将其重命名为fastwq，啥都行。
 
 
+# ENG
+(Unexpectedly, there are non-Chinese users 😁)
+
+Adapt to pyqt6
+
+Adapt to anki new api
+
+Modify invalid dictionary
+
+Fix the problem that the css file cannot be loaded (temporarily valid) ([problem source](https://github.com/ankitects/anki/blob/main/ts/editor/plain-text-input/remove-prohibited.ts#L14) & [Explanation](https://forums.ankiweb.net/t/how-to-add-external-css-in-a-field/17838/9) )
+## Use
+
+Just copy the src folder to the plugin folder, or rename it to fastwq, whatever.
+
+
+
+# -------------------
+
+
 # FastWordQuery Addon For Anki
 
   [Supported Dictionaries](docs/services.md)
@@ -33,9 +52,8 @@ It forks from [WordQuery](https://github.com/finalion/WordQuery), added **multi-
 
 ## Install
 
-   1. Place addons or addons21 folder of this repository to anki addon folder.  
-    **OR**
-   2. Use the installation code: **1807206748**
+   1. Just copy the src folder to the plugin folder, or rename it to fastwq, whatever.
+
 
 
 ## Setting
