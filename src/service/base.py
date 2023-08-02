@@ -49,18 +49,15 @@ try:
 except Exception:
     import urllib.request as urllib2
 
-
 try:
     from cookielib import CookieJar
 except Exception:
     from http.cookiejar import CookieJar
 
-
 try:
     import threading as _threading
 except ImportError:
     import dummy_threading as _threading
-
 
 __all__ = [
     'register', 'export', 'copy_static_file', 'with_styles', 'parse_html', 'service_wrap', 'get_hex_name',
@@ -68,13 +65,15 @@ __all__ = [
 ]
 
 _default_ua = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 ' \
-             '(KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36'
+              '(KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36'
 
 
 def get_hex_name(prefix, val, suffix):
     ''' get sha1 hax name '''
     hex_digest = sha1(val.encode('utf-8')).hexdigest().lower()
-    name = '.'.join(['-'.join([prefix, hex_digest[:8], hex_digest[8:16], hex_digest[16:24], hex_digest[24:32], hex_digest[32:], ]), suffix, ])
+    name = '.'.join(
+        ['-'.join([prefix, hex_digest[:8], hex_digest[8:16], hex_digest[16:24], hex_digest[24:32], hex_digest[32:], ]),
+         suffix, ])
     return name
 
 
@@ -86,6 +85,7 @@ def register(labels):
     """
     register the dict service with a labels, which will be shown in the dicts list.
     """
+
     def _deco(cls):
         cls.__register_label__ = _cl(labels)
 
@@ -104,6 +104,7 @@ def register(labels):
             attrs[1] = index
 
         return cls
+
     return _deco
 
 
@@ -111,15 +112,18 @@ def export(labels):
     """
     export dict field function with a labels, which will be shown in the fields list.
     """
+
     def _with(fld_func):
         @wraps(fld_func)
         def _deco(self, *args, **kwargs):
             res = fld_func(self, *args, **kwargs)
             return QueryResult(result=res) if not isinstance(res, QueryResult) else res
+
         _deco.__export_attrs__ = [_cl(labels), -1]
         _deco.__def_index__ = export.EXPORT_INDEX
         export.EXPORT_INDEX += 1
         return _deco
+
     return _with
 
 
@@ -143,17 +147,18 @@ def with_styles(**styles):
     js: js strings
     jsfile: specify the js file in static folder
     """
+
     def _with(fld_func):
         @wraps(fld_func)
         def _deco(cls, *args, **kwargs):
             res = fld_func(cls, *args, **kwargs)
-            cssfile, css, jsfile, js, need_wrap_css, class_wrapper =\
-                styles.get('cssfile', None),\
-                styles.get('css', None),\
-                styles.get('jsfile', None),\
-                styles.get('js', None),\
-                styles.get('need_wrap_css', False),\
-                styles.get('wrap_class', '')
+            cssfile, css, jsfile, js, need_wrap_css, class_wrapper = \
+                styles.get('cssfile', None), \
+                    styles.get('css', None), \
+                    styles.get('jsfile', None), \
+                    styles.get('js', None), \
+                    styles.get('need_wrap_css', False), \
+                    styles.get('wrap_class', '')
 
             def wrap(html, css_obj, is_file=True):
                 # wrap css and html
@@ -181,7 +186,9 @@ def with_styles(**styles):
             else:
                 res.set_styles(jsfile=jsfile, js=js)
                 return res
+
         return _deco
+
     return _with
 
 
@@ -203,8 +210,10 @@ def service_wrap(service, *args, **kwargs):
     """
     wrap the service class constructor
     """
+
     def _service():
         return service(*args, **kwargs)
+
     return _service
 
 
@@ -376,7 +385,7 @@ class WebService(Service):
         """
         DEFAULT_TIMEOUT = 3
 
-        PADDING = '\0' * 2**11
+        PADDING = '\0' * 2 ** 11
 
         assert method in ['GET', 'POST'], "method must be GET or POST"
 
@@ -443,7 +452,7 @@ class WebService(Service):
 
             if 'mime' in require and \
                     require['mime'] != format(response.info().
-                                              gettype()).replace('/x-', '/'):
+                                                      gettype()).replace('/x-', '/'):
                 value_error = ValueError(
                     "Request got %s Content-Type for %s; wanted %s" %
                     (response.info().gettype(), desc, require['mime'])
@@ -484,6 +493,7 @@ class WebService(Service):
 
 class _DictBuildWorker(QThread):
     """Local Dictionary Builder"""
+
     def __init__(self, func):
         super(_DictBuildWorker, self).__init__()
         self._builder = None
@@ -519,7 +529,7 @@ class LocalService(Service):
     def _get_builer(key, func=None):
         LocalService._mutex_builder.lock()
         key = md5(str(key).encode('utf-8')).hexdigest()
-        if not(func is None):
+        if not (func is None):
             if not LocalService._mdx_builders[key]:
                 worker = _DictBuildWorker(func)
                 worker.start()
@@ -585,16 +595,19 @@ class MdxService(LocalService):
         jsfile = re.findall(r'<script .*?src=[\'\"](.+?)[\'\"]', html, re.DOTALL)
         return QueryResult(result=html, js=u'\n'.join(js), jsfile=jsfile)
 
-    def _get_definition_mdx(self):
+    def _get_definition_mdx(self, word=None):
         """according to the word return mdx dictionary page"""
-        ignorecase = config.ignore_mdx_wordcase and (self.word != self.word.lower() or self.word != self.word.upper())
-        content = self.builder.mdx_lookup(self.word, ignorecase=ignorecase)
+        if word is None:
+            word = self.word
+        ignorecase = config.ignore_mdx_wordcase and (word != word.lower() or word != word.upper())
+        content = self.builder.mdx_lookup(word, ignorecase=ignorecase)
         str_content = ""
         if len(content) > 0:
             for c in content:
                 str_content += c.replace("\r\n", "").replace("entry:/", "")
 
         return str_content
+
 
     def _get_definition_mdd(self, word):
         """according to the keyword(param word) return the media file contents"""
@@ -606,13 +619,15 @@ class MdxService(LocalService):
         else:
             return []
 
-    def get_html(self):
+    def get_html(self, word=None):
         """get self.word's html page from MDX"""
-        if not self.html_cache[self.word]:
-            html = self._get_definition_mdx()
+        if word is None:
+            word = self.word
+        if not self.html_cache[word]:
+            html = self._get_definition_mdx(word)
             if html:
-                self.html_cache[self.word] = html
-        return self.html_cache[self.word]
+                self.html_cache[word] = html
+        return self.html_cache[word]
 
     def save_file(self, filepath_in_mdx, savepath):
         """according to filepath_in_mdx to get media file and save it to savepath"""
@@ -638,6 +653,33 @@ class MdxService(LocalService):
         return self.cache[self.word]
 
     def _get_default_html(self):
+        # TODO 目前假设不存在多次重定向
+        html = u''
+        result = self.get_html()
+        if result:
+            if result.upper().find(u"@@@LINK=") > -1:
+                # 有可能不止一个新词，一词的同义需要多次重定向
+                words = list(filter(None, result.upper().split('@@@LINK=')))
+                # redirect to a new word behind the equal symol.
+                # for example '@@@LINK=あまでら【尼寺】@@@LINK=にじ【尼寺】'
+                html_list = []
+                for word in words:
+                    if not word.upper() in self.word_links:  # word
+                        self.word_links.append(word.upper())
+                        html_list.append(self.get_html(word))
+
+                html = self.adapt_to_anki("<br>".join(html_list))
+                self.cache[self.word] = html
+                return html
+            else:
+                # no redirect
+                html = self.adapt_to_anki(result)
+                self.cache[self.word] = html
+                return html
+        self.cache[self.word] = html
+        return html
+
+    def _get_default_html_one_word(self):
         html = u''
         result = self.get_html()
         if result:
@@ -685,7 +727,7 @@ class MdxService(LocalService):
         # find sounds
         p = re.compile(
             r'<a[^>]+?href=\"sound:_(.*?\.(?:mp3|wav))\"[^>]*?>(.*?)</a>')
-        html = p.sub("[sound:mdx-"+self.title+"-"+u"\\1]\\2", html)
+        html = p.sub("[sound:mdx-" + self.title + "-" + u"\\1]\\2", html)
         self.save_media_files(media_files_set)
         for f in mcss:
             cssfile = u'_{}'.format(os.path.basename(f.replace('\\', os.path.sep)))
@@ -713,7 +755,7 @@ class MdxService(LocalService):
         basename = os.path.basename(filepath_in_mdx.replace('\\', os.path.sep))
         if savepath is None:
             savepath = '_' + basename
-            if basename.lower().endswith(("mp3","wav")):
+            if basename.lower().endswith(("mp3", "wav")):
                 savepath = "mdx-" + self.title + "-" + basename
         if os.path.exists(savepath):
             return savepath
@@ -723,7 +765,8 @@ class MdxService(LocalService):
                 shutil.copy(src_fn, savepath)
                 return savepath
             else:
-                ignorecase = config.ignore_mdx_wordcase and (filepath_in_mdx != filepath_in_mdx.lower() or filepath_in_mdx != filepath_in_mdx.upper())
+                ignorecase = config.ignore_mdx_wordcase and (
+                            filepath_in_mdx != filepath_in_mdx.lower() or filepath_in_mdx != filepath_in_mdx.upper())
                 bytes_list = self.builder.mdd_lookup(filepath_in_mdx, ignorecase=ignorecase)
                 if bytes_list:
                     with open(savepath, 'wb') as f:
@@ -764,6 +807,7 @@ class StardictService(LocalService):
     '''
     Stardict Local Dictionary Service
     '''
+
     def __init__(self, dict_path):
         super(StardictService, self).__init__(dict_path)
         self.query_interval = 0.05
@@ -796,7 +840,7 @@ class StardictService(LocalService):
         # self.builder.check_build()
         try:
             result = self.builder[self.word]
-            result = result.strip().replace('\r\n', '<br />')\
+            result = result.strip().replace('\r\n', '<br />') \
                 .replace('\r', '<br />').replace('\n', '<br />')
             return QueryResult(result=result)
         except KeyError:
