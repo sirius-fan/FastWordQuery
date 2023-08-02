@@ -10,7 +10,7 @@
 修复css文件不能载入的问题（暂时有效）（  [问题来源](https://github.com/ankitects/anki/blob/main/ts/editor/plain-text-input/remove-prohibited.ts#L14) & [解释](https://forums.ankiweb.net/t/how-to-add-external-css-in-a-field/17838/9) ）
 ## 使用
 
-复制addons21里的fastwq文件夹到插件文件夹即可
+复制src文件夹到插件文件夹即可，也可将其重命名为fastwq，啥都行。
 
 
 # FastWordQuery Addon For Anki
