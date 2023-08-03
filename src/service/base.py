@@ -659,10 +659,16 @@ class MdxService(LocalService):
         if result:
             if result.upper().find(u"@@@LINK=") > -1:
                 # 有可能不止一个新词，一词的同义需要多次重定向
+                raw_html, _, result = result.partition("@@@LINK=")
+
                 words = list(filter(None, result.upper().split('@@@LINK=')))
                 # redirect to a new word behind the equal symol.
                 # for example '@@@LINK=あまでら【尼寺】@@@LINK=にじ【尼寺】'
-                html_list = []
+                if raw_html:
+                    html_list = [raw_html,]
+                else:
+                    html_list = []
+
                 for word in words:
                     if not word.upper() in self.word_links:  # word
                         self.word_links.append(word.upper())
