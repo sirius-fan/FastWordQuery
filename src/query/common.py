@@ -33,6 +33,7 @@ from ..libs.snowballstemmer import stemmer
 from ..service import QueryResult, copy_static_file, service_pool
 from ..service.base import LocalService
 from ..utils import wrap_css
+from ..lang import _
 
 __all__ = [
     'InvalidWordException', 'update_note_fields', 'update_note_field',
@@ -52,7 +53,7 @@ def inspect_note(note):
     return maps: dicts map of current note
     """
 
-    conf = config.get_maps(note.model()['id'])
+    conf = config.get_maps(note.note_type()['id'])
     maps_list = {'list': [conf], 'def': 0} if isinstance(conf, list) else conf
     maps = maps_list['list'][maps_list['def']]
     maps = maps if isinstance(maps, list) else maps['fields']
@@ -73,7 +74,7 @@ def inspect_note(note):
 
 
 def strip_combining(txt):
-    "Return txt with all combining characters removed."
+    """Return txt with all combining characters removed."""
     norm = unicodedata.normalize('NFKD', txt)
     return u"".join([c for c in norm if not unicodedata.combining(c)])
 
@@ -115,9 +116,9 @@ def update_note_field(note, fld_index, fld_result):
 
 
 def promot_choose_css(missed_css):
-    '''
+    """
     Choose missed css file and copy to user folder
-    '''
+    """
     checked = set()
     for css in missed_css:
         filename = u'_' + css['file']
@@ -142,12 +143,12 @@ def promot_choose_css(missed_css):
 
 def add_to_tmpl(note, **kwargs):
     # templates
-    '''
+    """
     [{u'name': u'Card 1', u'qfmt': u'{{Front}}\n\n', u'did': None, u'bafmt': u'',
         u'afmt': u'{{FrontSide}}\n\n<hr id=answer>\n\n{{Back}}\n\n{{12}}\n\n{{44}}\n\n', u'ord': 0, u'bqfmt': u''}]
-    '''
+    """
     # showInfo(str(kwargs))
-    afmt = note.model()['tmpls'][0]['afmt']
+    afmt = note.note_type()['tmpls'][0]['afmt']
     if kwargs:
         jsfile, js = kwargs.get('jsfile', None), kwargs.get('js', None)
         if js and js.strip():
@@ -174,7 +175,7 @@ def add_to_tmpl(note, **kwargs):
 </script>'''.format(fn)
                 if addings not in afmt:
                     afmt += addings
-        note.model()['tmpls'][0]['afmt'] = afmt
+        note.note_type()['tmpls'][0]['afmt'] = afmt
 
 
 def query_flds(note, fileds=None):
@@ -258,7 +259,7 @@ def query_flds(note, fileds=None):
 
 
 def cloze_deletion(text, cloze):
-    '''create cloze deletion text'''
+    """create cloze deletion text"""
     text = text.replace('’', '\'')
     result = text
     offset = 0

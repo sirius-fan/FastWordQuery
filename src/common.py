@@ -144,7 +144,7 @@ def customize_addcards():
         add a button in add card window
         '''
         bb = self.form.buttonBox
-        ar = QDialogButtonBox.ActionRole
+        ar = QDialogButtonBox.ButtonRole.ActionRole
         # button
         fastwqBtn = QPushButton(_("QUERY") + u" " + downArrow())
         fastwqBtn.setShortcut(QKeySequence(my_shortcut))
@@ -158,8 +158,7 @@ def customize_addcards():
                     menu = QMenu(self)
                     menu.addAction(
                         _("ALL_FIELDS"),
-                        lambda: query_from_editor_fields(self.editor))
-                        # ,QKeySequence(my_shortcut))
+                        lambda: query_from_editor_fields(self.editor))  # ,QKeySequence(my_shortcut))
                     # default options
                     mid = self.editor.note.model()['id']
                     conf = config.get_maps(mid)
@@ -179,7 +178,7 @@ def customize_addcards():
                         menu.addSeparator()
                     # end default options
                     menu.addAction(_("OPTIONS"), lambda: show_options(self, self.editor.note.model()['id']))
-                    menu.exec_(
+                    menu.exec(
                         fastwqBtn.mapToGlobal(QPoint(0, fastwqBtn.height())))
             else:
                 query_from_editor_fields(self.editor)
@@ -201,7 +200,7 @@ def config_menu():
 
 
 def context_menu():
-    '''mouse right click menu'''
+    """mouse right click menu"""
 
     def on_setup_menus(web_view, menu):
         """
@@ -238,8 +237,7 @@ def context_menu():
 
         submenu = menu.addMenu(_('QUERY'))
         submenu.addAction(
-            _('ALL_FIELDS'), lambda: query_from_editor_fields(web_view.editor))
-            # ,QKeySequence(my_shortcut))
+            _('ALL_FIELDS'), lambda: query_from_editor_fields(web_view.editor))  # ,QKeySequence(my_shortcut))
         if len(curr_flds) > 0:
             # quer hook method
             def query_from_editor_hook(i):

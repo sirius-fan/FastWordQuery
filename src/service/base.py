@@ -526,7 +526,7 @@ class LocalService(Service):
     _mutex_builder = QMutex()
 
     @staticmethod
-    def _get_builer(key, func=None):
+    def _get_builder(key, func=None):
         LocalService._mutex_builder.lock()
         key = md5(str(key).encode('utf-8')).hexdigest()
         if not (func is None):
@@ -571,7 +571,7 @@ class MdxService(LocalService):
         self.word_links = []
         self.styles = []
         if MdxService.check(self.dict_path):
-            self.builder = self._get_builer(dict_path, service_wrap(MdxBuilder, dict_path))
+            self.builder = self._get_builder(dict_path, service_wrap(MdxBuilder, dict_path))
 
     @staticmethod
     def check(dict_path):
@@ -607,7 +607,6 @@ class MdxService(LocalService):
                 str_content += c.replace("\r\n", "").replace("entry:/", "")
 
         return str_content
-
 
     def _get_definition_mdd(self, word):
         """according to the keyword(param word) return the media file contents"""
@@ -774,7 +773,7 @@ class MdxService(LocalService):
                 return savepath
             else:
                 ignorecase = config.ignore_mdx_wordcase and (
-                            filepath_in_mdx != filepath_in_mdx.lower() or filepath_in_mdx != filepath_in_mdx.upper())
+                        filepath_in_mdx != filepath_in_mdx.lower() or filepath_in_mdx != filepath_in_mdx.upper())
                 bytes_list = self.builder.mdd_lookup(filepath_in_mdx, ignorecase=ignorecase)
                 if bytes_list:
                     with open(savepath, 'wb') as f:
@@ -821,7 +820,7 @@ class StardictService(LocalService):
         self.query_interval = 0.05
         if StardictService.check(self.dict_path):
             dict_path = dict_path[:-4]
-            self.builder = self._get_builer(
+            self.builder = self._get_builder(
                 dict_path,
                 service_wrap(StardictBuilder, dict_path, in_memory=False)
             )
