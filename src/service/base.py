@@ -684,7 +684,7 @@ class MdxService(LocalService):
                 # no redirect
                 html = result
 
-        self.cache[self.word] = self.adapt_to_anki(html)
+        self.cache[word] = self.adapt_to_anki(html)
         return html
 
     def _get_default_html_one_word(self):
