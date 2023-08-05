@@ -730,7 +730,8 @@ class MdxService(LocalService):
             media_files_set.update(set(msound))
         for each in media_files_set:
             html = html.replace(each, u'_' + each.split('/')[-1])
-        html = css_style + html
+        if html !='':
+            html = css_style + html
         # find sounds
         p = re.compile(
             r'<a[^>]+?href=\"sound:_(.*?\.(?:mp3|wav))\"[^>]*?>(.*?)</a>')
