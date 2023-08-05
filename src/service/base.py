@@ -659,6 +659,8 @@ class MdxService(LocalService):
         :return: The no adapt_to_anki html of the word
         """
         html = u''
+        if word is None:
+            word = self.word
         result = self.get_html(word)
         if result:
             if result.upper().find(u"@@@LINK=") > -1:
@@ -667,14 +669,14 @@ class MdxService(LocalService):
                 # redirect to a new word behind the equal symol.
                 # for example '@@@LINK=あまでら【尼寺】@@@LINK=にじ【尼寺】'
                 if raw_html:
-                    html_list = [raw_html,]
+                    html_list = [raw_html, ]
                 else:
                     html_list = []
 
-                for word in words:
-                    if not word.upper() in self.word_links:
-                        self.word_links.append(word.upper())
-                        html_list.append(self._get_default_html(word))
+                for redirect_word in words:
+                    if not redirect_word.upper() in self.word_links:
+                        self.word_links.append(redirect_word.upper())
+                        html_list.append(self._get_default_html(redirect_word))
 
                 html = "<br>".join(html_list)
 
