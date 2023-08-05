@@ -649,18 +649,20 @@ class MdxService(LocalService):
         '''
         if not self.cache[self.word]:
             self.word_links = [self.word.upper()]
-            self._get_default_html()
+            self._get_default_html(self.word)
         return self.cache[self.word]
 
-    def _get_default_html(self):
-        # TODO 目前假设不存在多次重定向
+    def _get_default_html(self, word=None):
+        """    
+        :param self: Refer to the instance of the class
+        :param word: Pass the word to be searched for
+        :return: The no adapt_to_anki html of the word
+        """
         html = u''
-        result = self.get_html()
+        result = self.get_html(word)
         if result:
             if result.upper().find(u"@@@LINK=") > -1:
-                # 有可能不止一个新词，一词的同义需要多次重定向
                 raw_html, _, result = result.partition("@@@LINK=")
-
                 words = list(filter(None, result.upper().split('@@@LINK=')))
                 # redirect to a new word behind the equal symol.
                 # for example '@@@LINK=あまでら【尼寺】@@@LINK=にじ【尼寺】'
@@ -670,19 +672,17 @@ class MdxService(LocalService):
                     html_list = []
 
                 for word in words:
-                    if not word.upper() in self.word_links:  # word
+                    if not word.upper() in self.word_links:
                         self.word_links.append(word.upper())
-                        html_list.append(self.get_html(word))
+                        html_list.append(self._get_default_html(word))
 
-                html = self.adapt_to_anki("<br>".join(html_list))
-                self.cache[self.word] = html
-                return html
+                html = "<br>".join(html_list)
+
             else:
                 # no redirect
-                html = self.adapt_to_anki(result)
-                self.cache[self.word] = html
-                return html
-        self.cache[self.word] = html
+                html = result
+
+        self.cache[self.word] = self.adapt_to_anki(html)
         return html
 
     def _get_default_html_one_word(self):
