@@ -526,7 +526,7 @@ class LocalService(Service):
     _mutex_builder = QMutex()
 
     @staticmethod
-    def _get_builer(key, func=None):
+    def _get_builder(key, func=None):
         LocalService._mutex_builder.lock()
         key = md5(str(key).encode('utf-8')).hexdigest()
         if not (func is None):
@@ -571,7 +571,7 @@ class MdxService(LocalService):
         self.word_links = []
         self.styles = []
         if MdxService.check(self.dict_path):
-            self.builder = self._get_builer(dict_path, service_wrap(MdxBuilder, dict_path))
+            self.builder = self._get_builder(dict_path, service_wrap(MdxBuilder, dict_path))
 
     @staticmethod
     def check(dict_path):
@@ -607,7 +607,6 @@ class MdxService(LocalService):
                 str_content += c.replace("\r\n", "").replace("entry:/", "")
 
         return str_content
-
 
     def _get_definition_mdd(self, word):
         """according to the keyword(param word) return the media file contents"""
@@ -649,40 +648,42 @@ class MdxService(LocalService):
         '''
         if not self.cache[self.word]:
             self.word_links = [self.word.upper()]
-            self._get_default_html()
+            self._get_default_html(self.word)
         return self.cache[self.word]
 
-    def _get_default_html(self):
-        # TODO 目前假设不存在多次重定向
+    def _get_default_html(self, word=None):
+        """    
+        :param self: Refer to the instance of the class
+        :param word: Pass the word to be searched for
+        :return: The no adapt_to_anki html of the word
+        """
         html = u''
-        result = self.get_html()
+        if word is None:
+            word = self.word
+        result = self.get_html(word)
         if result:
             if result.upper().find(u"@@@LINK=") > -1:
-                # 有可能不止一个新词，一词的同义需要多次重定向
                 raw_html, _, result = result.partition("@@@LINK=")
-
                 words = list(filter(None, result.upper().split('@@@LINK=')))
                 # redirect to a new word behind the equal symol.
                 # for example '@@@LINK=あまでら【尼寺】@@@LINK=にじ【尼寺】'
                 if raw_html:
-                    html_list = [raw_html,]
+                    html_list = [raw_html, ]
                 else:
                     html_list = []
 
-                for word in words:
-                    if not word.upper() in self.word_links:  # word
-                        self.word_links.append(word.upper())
-                        html_list.append(self.get_html(word))
+                for redirect_word in words:
+                    if not redirect_word.upper() in self.word_links:
+                        self.word_links.append(redirect_word.upper())
+                        html_list.append(self._get_default_html(redirect_word))
 
-                html = self.adapt_to_anki("<br>".join(html_list))
-                self.cache[self.word] = html
-                return html
+                html = "<br>".join(html_list)
+
             else:
                 # no redirect
-                html = self.adapt_to_anki(result)
-                self.cache[self.word] = html
-                return html
-        self.cache[self.word] = html
+                html = result
+
+        self.cache[word] = self.adapt_to_anki(html)
         return html
 
     def _get_default_html_one_word(self):
@@ -772,7 +773,7 @@ class MdxService(LocalService):
                 return savepath
             else:
                 ignorecase = config.ignore_mdx_wordcase and (
-                            filepath_in_mdx != filepath_in_mdx.lower() or filepath_in_mdx != filepath_in_mdx.upper())
+                        filepath_in_mdx != filepath_in_mdx.lower() or filepath_in_mdx != filepath_in_mdx.upper())
                 bytes_list = self.builder.mdd_lookup(filepath_in_mdx, ignorecase=ignorecase)
                 if bytes_list:
                     with open(savepath, 'wb') as f:
@@ -819,7 +820,7 @@ class StardictService(LocalService):
         self.query_interval = 0.05
         if StardictService.check(self.dict_path):
             dict_path = dict_path[:-4]
-            self.builder = self._get_builer(
+            self.builder = self._get_builder(
                 dict_path,
                 service_wrap(StardictBuilder, dict_path, in_memory=False)
             )
