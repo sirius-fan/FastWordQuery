@@ -14,7 +14,7 @@
 2. 使用安装码 **103636257**
 
 # ENG
-(Unexpectedly, there are non-Chinese users 😁)
+
 
 Adapt to pyqt6
 
