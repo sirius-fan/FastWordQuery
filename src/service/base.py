@@ -664,7 +664,7 @@ class MdxService(LocalService):
         if result:
             if result.upper().find(u"@@@LINK=") > -1:
                 raw_html, _, result = result.partition("@@@LINK=")
-                words = list(filter(None, result.upper().split('@@@LINK=')))
+                words = list(filter(None, result.split('@@@LINK=')))
                 # redirect to a new word behind the equal symol.
                 # for example '@@@LINK=あまでら【尼寺】@@@LINK=にじ【尼寺】'
                 if raw_html:
