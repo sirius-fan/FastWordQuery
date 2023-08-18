@@ -665,6 +665,7 @@ class MdxService(LocalService):
             if result.upper().find(u"@@@LINK=") > -1:
                 raw_html, _, result = result.partition("@@@LINK=")
                 words = list(filter(None, result.split('@@@LINK=')))
+                words = [i.strip() for i in words]
                 # redirect to a new word behind the equal symol.
                 # for example '@@@LINK=あまでら【尼寺】@@@LINK=にじ【尼寺】'
                 if raw_html:
@@ -676,8 +677,8 @@ class MdxService(LocalService):
                     if not redirect_word.upper() in self.word_links:
                         self.word_links.append(redirect_word.upper())
                         html_list.append(self._get_default_html(redirect_word))
-
-                html = "<br>".join(html_list)
+                if len(html_list) != 0:
+                    html = "<br>".join(html_list)
 
             else:
                 # no redirect
