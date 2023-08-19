@@ -709,13 +709,13 @@ class MdxService(LocalService):
         """
         # convert media path, save media files
         media_files_set = set()
-        mcss = re.findall(r'href="(\S+?\.css)"', html)
+        mcss = re.findall(r'href=[\',"](\S+?\.css)[\',"]', html)
         media_files_set.update(set(mcss))
         mjs = re.findall(r'src="([\w\./]\S+?\.js)"', html)
         media_files_set.update(set(mjs))
         msrc = re.findall(r'<img.*?src="([\w\./]\S+?)".*?>', html)
         media_files_set.update(set(msrc))
-        msound = re.findall(r'href="sound:(.*?\.(?:mp3|wav))"', html)
+        msound = re.findall(r'href="sound:(.*?\.(?:mp3|wav|aac))"', html)
         # TODO
         """
         for import css
@@ -724,14 +724,16 @@ class MdxService(LocalService):
         <style>@import url(style.css);</style>
         <style>@import "style.css";</style>
         """
-        css_list = ["@import url(_{});".format(i) for i in mcss]
-        css_style = "\n".join(css_list)
-        css_style = "<style> {} </style>".format(css_style)
+        css_style = ''
+        if len(mcss) != 0:
+            css_list = ["@import url(_{});".format(i) for i in mcss]
+            css_style = "\n".join(css_list)
+            css_style = "<style> {} </style>".format(css_style)
         if config.export_media:
             media_files_set.update(set(msound))
         for each in media_files_set:
             html = html.replace(each, u'_' + each.split('/')[-1])
-        if html !='':
+        if html != '' and css_style != '':
             html = css_style + html
         # find sounds
         p = re.compile(
