@@ -736,8 +736,9 @@ class MdxService(LocalService):
         if html != '' and css_style != '':
             html = css_style + html
         # find sounds
+        # in css ".replay-button" can config play-button
         p = re.compile(
-            r'<a[^>]+?href=\"sound:_(.*?\.(?:mp3|wav))\"[^>]*?>(.*?)</a>')
+            r'<a[^>]+?href=\"sound:_(.*?\.(?:mp3|wav|aac))\"[^>]*?>(.*?)</a>')
         html = p.sub("[sound:mdx-" + self.title + "-" + u"\\1]\\2", html)
         self.save_media_files(media_files_set)
         for f in mcss:
