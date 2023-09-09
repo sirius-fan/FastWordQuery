@@ -21,15 +21,15 @@ from .lang import _
 
 __all__ = ['VERSION', 'Endpoint', 'Template']
 
-VERSION = 'v2.0.0b'
+VERSION = 'v3.0.0b'
 
 
 class Endpoint:
-    repository = u'https://github.com/sth2018/FastWordQuery'
-    feedback_issue = u'https://github.com/sth2018/FastWordQuery/issues'
-    feedback_mail = u'sth201807@gmail.com'
-    check_version = u'sth2018/FastWordQuery'
-    user_guide = u'https://sth2018.github.io/FastWordQuery'
+    repository = u'https://github.com/sirius-fan/FastWordQuery'
+    feedback_issue = u'https://github.com/sirius-fan/FastWordQuery/issues'
+    feedback_mail = u'hi.fanjialiang@gmail.com'
+    check_version = u'sirius-fan/FastWordQuery'
+    user_guide = u'https://github.com/sirius-fan/FastWordQuery'
     version = VERSION
 
 
