@@ -586,7 +586,8 @@ class TabContent(QScrollArea):
             text = dict_fld_name if dict_fld_name else 'http://'
             field_combo.setEditable(True)
             field_combo.setEditText(text)
-            field_combo.setFocus(Qt.MouseFocusReason)  # MouseFocusReason
+            field_combo.setFocus(Qt.FocusReason.MouseFocusReason) 
+
         else:
             unique = dict_combo_itemdata
             service = service_pool.get(unique)
