@@ -22,7 +22,8 @@ import sys
 import anki
 import aqt
 import aqt.models
-from PyQt6 import sip
+# from PyQt6 import sip
+from aqt import sip
 from anki.utils import is_mac
 from aqt import mw
 from aqt.qt import *
