@@ -19,14 +19,11 @@
 
 import os
 import sys
-
-from aqt.forms.editaddon import Ui_Dialog
 from aqt.qt import *
 
 from ..context import config
 from ..lang import _, _sl
 from ..service import service_manager, service_pool
-from ..utils import get_icon
 from .base import WIDGET_SIZE, Dialog
 
 # 2x3 compatible
@@ -144,25 +141,22 @@ class DictManageDialog(Dialog):
 
     def on_edit(self, path):
         """edit dictionary file"""
-        d = QDialog(self)
-        frm = Ui_Dialog()
-        frm.setupUi(d)
-        d.setWindowTitle(os.path.basename(path))
-        # 2x3 compatible
-        if sys.hexversion >= 0x03000000:
-            frm.text.setPlainText(open(path, 'r', encoding="utf-8").read())
-        else:
-            frm.text.setPlainText(unicode(open(path).read(), "utf8"))
-        d.accepted.connect(lambda: self.on_accept_edit(path, frm))
-        d.exec()
 
-    def on_accept_edit(self, path, frm):
-        """save dictionary file"""
-        # 2x3 compatible
-        if sys.hexversion >= 0x03000000:
-            open(path, "w", encoding='utf-8').write(frm.text.toPlainText())
+        print("[FWQ] open dict path:", path)
+        try:
+            self.open_text_editor(path)
+        except:
+            pass
+
+    def open_text_editor(self, filename):
+        if sys.platform == 'win32':
+            os.system(f"start {filename}")
+        elif sys.platform == 'darwin':
+            os.system(f"open {filename}")
+        elif sys.platform == 'linux':
+            os.system(f"xdg-open {filename}")
         else:
-            open(path, "w").write(frm.text.toPlainText().encode("utf8"))
+            pass
 
     def accept(self):
         """ok button clicked"""
