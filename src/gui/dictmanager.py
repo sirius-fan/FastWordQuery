@@ -150,9 +150,9 @@ class DictManageDialog(Dialog):
 
     def open_text_editor(self, filename):
         if sys.platform == 'win32':
-            os.system(f"start {filename}")
+            os.system(f"start notepad {filename}")
         elif sys.platform == 'darwin':
-            os.system(f"open {filename}")
+            os.system(f"open -e {filename}")
         elif sys.platform == 'linux':
             os.system(f"xdg-open {filename}")
         else:
