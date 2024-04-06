@@ -61,7 +61,7 @@ class WidgetSize(object):
     map_min_height = 0
     map_max_height = 30
     map_fld_width = 100
-    map_dictname_width = 150
+    map_dictname_width = 250
     map_dict_width = 160
     map_field_width = 200
 

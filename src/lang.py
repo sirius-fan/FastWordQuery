@@ -107,6 +107,9 @@ _arr = [
     ['AME_PHON', u'美式音标', u'Phonetic Symbols (US)'],
     ['AME_PHON_NO_PREFIX', u'美式音标无前缀', u'Phonetic Symbols (US) no prefix'],
     ['IMAGE', u'图片', u'Images'],
+    ['EDITOR_NAME_NOTE', 
+     u'新版本不再提供插件内代码编辑, 而是使用外部文本编辑器,\n win使用记事本, linux使用xdg-open 用默认.py文件的打开方式打开文件, macos默认使用open\n可以在下方填入自定义的打开方式, 如 gvim、 neovide、 code 等',
+     u'The new version no longer provides in-plugin code editing, but uses an external text editor.\n Win uses Notepad, Linux uses xdg-open to open the file with the default .py file opening method, and macos uses “open” by default. \nYou can fill in the fields below. Customized opening methods, such as gvim, neovide, code, etc.'],
 ]
 
 _trans = {item[0]: {'zh-CN': item[1], 'en': item[2]} for item in _arr}

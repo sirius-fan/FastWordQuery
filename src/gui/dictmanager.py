@@ -19,6 +19,7 @@
 
 import os
 import sys
+import subprocess
 from aqt.qt import *
 
 from ..context import config
@@ -42,6 +43,12 @@ class DictManageDialog(Dialog):
         super(DictManageDialog, self).__init__(parent, title)
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
+        text_line = QLabel(_('EDITOR_NAME_NOTE'))
+        text_line.setWordWrap(True)
+        self.edit_line = QLineEdit()
+        self.edit_line.setPlaceholderText("editor name")
+        self.main_layout.addWidget(text_line)
+        self.main_layout.addWidget(self.edit_line)
         self._options = list()
         btnbox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok, Qt.Orientation.Horizontal, self)
         btnbox.accepted.connect(self.accept)
@@ -52,9 +59,10 @@ class DictManageDialog(Dialog):
         self.scroll_area = QScrollArea()
         self.scroll_area.setWidget(self.scroll)
         self.main_layout.addWidget(self.scroll_area)
-        self.main_layout.addLayout(self.dicts_layout)
+        # self.main_layout.addLayout(self.dicts_layout)
         self.main_layout.addWidget(btnbox)
         self.build()
+
 
     def build(self):
         """ """
@@ -144,19 +152,22 @@ class DictManageDialog(Dialog):
 
         print("[FWQ] open dict path:", path)
         try:
-            self.open_text_editor(path)
+            on_edit = self.edit_line.text()
+            self.open_text_editor(path, on_edit)
         except:
             pass
 
-    def open_text_editor(self, filename):
-        if sys.platform == 'win32':
+    def open_text_editor(self, filename, editor=""):
+        if editor:
+            subprocess.Popen([f"{editor}", filename])
+        elif sys.platform == 'win32':
             os.system(f"start notepad {filename}")
         elif sys.platform == 'darwin':
-            os.system(f"open -e {filename}")
+            subprocess.Popen(["open", filename])
         elif sys.platform == 'linux':
             os.system(f"xdg-open {filename}")
         else:
-            pass
+            subprocess.Popen(["code", filename])
 
     def accept(self):
         """ok button clicked"""
