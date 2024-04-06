@@ -16,8 +16,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
+import anki.notes
 from aqt import mw
 from aqt.qt import *
 from aqt.utils import showInfo
@@ -156,6 +155,10 @@ class QueryWorkerManager(object):
                 worker.wait(30)
         self.progress.finish()
     
-    def handle_flush(self, note):
+    def handle_flush(self, note: anki.notes.Note):
         if self.flush and note:
-            note.flush()
+            try:
+                # flush is deprecated
+                note.flush()
+            except Exception:
+                note.col.update_note(note)

@@ -286,13 +286,13 @@ class OptionsDialog(Dialog):
         """
         show choose note type window
         """
-        edit = QPushButton(
-            anki.lang._("Manage"), clicked=lambda: aqt.models.Models(mw, self))
+        edit = QPushButton(_("MANAGE"), clicked=lambda: aqt.models.Models(mw, self))
         ret = StudyDeck(
             mw,
-            names=lambda: sorted(mw.col.models.all_names()),
-            accept=anki.lang._("Choose"),
-            title=anki.lang._("Choose Note Type"),
+            # names=lambda: sorted(mw.col.models.all_names()),
+            names=lambda: sorted([n.name for n in mw.col.models.all_names_and_ids()]),
+            accept=_("CHOOSE"),
+            title=_('CHOOSE_NOTE_TYPES'),
             help="_notes",
             parent=self,
             buttons=[edit],
@@ -675,11 +675,11 @@ class CTabBar(QTabBar):
     def eventFilter(self, widget, event):
         bhide = False
         if event.type() == QEvent.Type.MouseButtonPress:
-            if not self._editor.geometry().contains(event.globalPos()):
+            if not self._editor.geometry().contains(event.globalPosition().toPoint()):
                 bhide = True
         if not bhide:
             if event.type() == QEvent.Type.KeyPress:
-                if event.key() == Qt.Key_Escape:
+                if event.key() == Qt.Key.Key_Escape:
                     bhide = True
         if bhide:
             self.hideEditor()

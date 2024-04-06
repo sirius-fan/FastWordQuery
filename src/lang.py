@@ -32,6 +32,8 @@ _arr = [
     ['EXPORT_MEDIA', u'导出媒体文件', u'Export Media Files'],
     ['DICTS_FOLDERS', u'字典文件夹', u'Dictionary Folder'],
     ['CHOOSE_NOTE_TYPES', u'选择笔记类型', u'Choose Note Type'],
+    ['CHOOSE', u'选择', u'Choose'],
+    ['MANAGE', u'管理', u'Manage'],
     ['CURRENT_NOTE_TYPE', u'当前类型', u'Current type'],
     ['MDX_SERVER', u'MDX服务器', u'MDX server'],
     ['USE_DICTIONARY', u'使用字典', u'Use dict'],
